@@ -2,16 +2,20 @@ const express = require('express');
 const app=express();
 const morgan=require('morgan');
 const bodyParser=require('body-parser');
+const mongoose=require('mongoose');
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+
+mongoose.connect('mongodb://127.0.0.1/test');
 
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json()); 
 
-app.use((req,res,next)=>{
+//Cors Hataları İçin Hatalı!!...
+/*app.use((req,res,next)=>{
     res.header('Access-Control-Allow-Origin','*');
     res.header(
         'Access-Control-Allow-Headers',
@@ -21,7 +25,7 @@ app.use((req,res,next)=>{
         res.header('Access-Control-Allow-Methods','PUT,POST,PATCH,DELETE,GET');
         return res.status(200),json({});
     }
-});
+}); */
 
 //Routes which should handle requests
 app.use('/products',productRoutes);
